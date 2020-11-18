@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include "GameDisplay.h"
-// #include "GameAI.h"
 #define gameBoardSize 3
 
 // Method declarations
@@ -11,32 +9,16 @@ void printGameBoard();
 
 // Numerical Gameboard
 int gameboard [gameBoardSize][gameBoardSize][gameBoardSize];
-int front[gameBoardSize][gameBoardSize];
-int back[gameBoardSize][gameBoardSize];
-int left[gameBoardSize][gameBoardSize];
-int right[gameBoardSize][gameBoardSize];
-int top[gameBoardSize][gameBoardSize];
-int bottom[gameBoardSize][gameBoardSize];
 
 // 0 represents no move
-// 1 represents player 1
-// 2 represents player 2
+// -1 represents player 1
+// -2 represents player 2
 // TODO: Represent the center node as 3 or something
 void initGameBoard() {
     for (int i = 0; i < gameBoardSize; i++) {
         for (int j = 0; j < gameBoardSize; j++) {
             for (int k = 0; k < gameBoardSize; k++) {
                 gameboard[i][j][k] = 0;
-
-                front[i][j] = 0;
-                back[i][j] = 0;
-
-                top[i][j] = 0;
-                bottom[i][j] = 0;
-
-                left[i][j] = 0;
-                right[i][j] = 0;
-
             }
         }
     }
@@ -76,27 +58,3 @@ void printGameBoard() {
     }
 }
 
-// transfers game data to faces
-void updateFaces() {
-    for (int i = 0; i < gameBoardSize; i++) {
-        for (int j = 0; j < gameBoardSize; j++) {
-            front[i][j] = gameboard[0][i][j];
-            back[i][j] = gameboard[2][i][j];
-
-            top[i][j] = gameboard[i][0][j];
-            bottom[i][j] = gameboard[i][2][j];
-
-            left[i][j] = gameboard[i][j][0];
-            right[i][j] = gameboard[i][j][2];
-        }
-    }
-}
-
-// TODO 2d checkwin and 3d
-
-int main(){
-    initGameBoard();
-    printGameBoard();
-    testEdit();
-    displayBoard();
-}
