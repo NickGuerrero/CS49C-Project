@@ -156,9 +156,9 @@ static int * findTR_BLIndex(int face[gameBoardSize][gameBoardSize]) {
  * @param max maximum int of random number, non-inclusive
  * @return int
  */
-static int randomIntGen(int max) {
-    return (rand() % max);
-}
+//static int randomIntGen(int max) {
+//    return (rand() % max);
+//}
 
 //// TEST ME
 //void main() {

@@ -3,12 +3,12 @@
 
 
 // Defined functions
-void readUserInput();
 void updatePosition(int x, int y, int z, char letter);
 void displayBoard();
 void testEdit();
 void gameIntroduction();
-char gameMode();
-void gameInput();
+char gameMenu();
+void gameInstructions();
+int * gameInput();
 
 #endif

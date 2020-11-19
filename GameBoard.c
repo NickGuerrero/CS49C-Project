@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "GameDisplay.h"
-#include "GameAI.h"
+//#include "GameAI.h"
 #define gameBoardSize 3
 
 // Method declarations
@@ -64,22 +64,33 @@ void printGameBoard() {
 // Main Game Application
 int main(){
     bool active = true;
-    //char player;
     initGameBoard();
-    
-    // To be removed
-    printGameBoard();
-    testEdit();
-    displayBoard();
+    gameIntroduction();
+    char player;
 
     // Set active game
     while(active){
-        gameIntroduction();
-        //player = gameMode();
-        active = false;
-        // Determine turn order
+        player = gameMenu();
 
-        // Execute turn order until game is won
+        switch(player){
+            case 'Y':
+                // start ai game, user first
+                break;
+            case 'N':
+                // start ai game, ai first
+                break;
+            case 'B':
+                // start 2 player game
+                break;
+            case 'R':
+                gameInstructions();
+                break;
+            case 'Q':
+                active = false;
+                printf("Goodbye\n");
+                break;
+            default:
+                printf("Sorry, that request is not undestood.\n");
+        }
     }
-
 }
