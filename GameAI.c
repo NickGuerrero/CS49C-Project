@@ -1,13 +1,16 @@
 // TODO: Everything
 // In all seriousness, go to the header file for required functions
-#include "stdio.h"
+// #include "stdio.h"
 
 #include <stdlib.h>
 #include "GameAI.h"
 #define gameBoardSize 3
+
+// player1 or player2 should be used
 #define player1 -1
 #define player2 -2
 
+// 6 faces
 int front[gameBoardSize][gameBoardSize];
 int back[gameBoardSize][gameBoardSize];
 int left[gameBoardSize][gameBoardSize];
@@ -15,7 +18,10 @@ int right[gameBoardSize][gameBoardSize];
 int top[gameBoardSize][gameBoardSize];
 int bottom[gameBoardSize][gameBoardSize];
 
-// transfers game data to faces
+/**
+ * Takes 3d array and transforms it into 6 2d arrays excluding the center index i.e. [1][1][1]
+ * @param gameboard 3 dimensional array
+ */
 void updateFaces(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]) {
     for (int i = 0; i < gameBoardSize; i++) {
         for (int j = 0; j < gameBoardSize; j++) {
@@ -31,15 +37,26 @@ void updateFaces(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]) {
     }
 }
 
-// find if there is a possible win
+/**
+ * looks for a potential win based on player. Since player2 is assumed as AI
+ * You should run this for both player1 and player2 to check for possible wins/losses
+ * @param face 2d array to look for win
+ * @param player should be either player1 or player2 (-1 and -2 respectively)
+ * @return int[2] representing index on face to input,
+ * returns -1, -1 when no winning moves are found
+ */
 int * primitiveCheck(int face[gameBoardSize][gameBoardSize], int player) {
-    //check for win
-    int TL_BR = 0;
-    int TR_BL = 0;
+    /*
+     * increments a directional value every time a player move matches
+     * so on if a player has two moves on a horizontal linem horiz will be value 2.
+     */
+
+    int TL_BR = 0; // topLeft->botRight diagonal
+    int TR_BL = 0; // topRight->botLeft diagonal
 
     for (int i = 0; i < gameBoardSize; i++) {
-        int horiz = 0;
-        int vert = 0;
+        int horiz = 0; // horizontal direction
+        int vert = 0; // vertical direction
         for (int j = 0; j < gameBoardSize; j++) { // find how many "O" in a vert/horiz line
             if (face[i][j] == player) horiz++;
             if (face[j][i] == player) vert++;
@@ -57,7 +74,7 @@ int * primitiveCheck(int face[gameBoardSize][gameBoardSize], int player) {
         }
 
         // Diagonal increment
-        if (face[i][i] == player || face[i][i] == 0) {TL_BR++;}
+        if (face[i][i] == player) {TL_BR++;}
         if (face[i][gameBoardSize-1-i] == player) {TR_BL++;}
     }
 
@@ -79,7 +96,7 @@ int * primitiveCheck(int face[gameBoardSize][gameBoardSize], int player) {
     return noMove;
 }
 
-// individual checks for each direction to find index
+// helper methods for finding correct index
 static int * findHorizIndex(int face[gameBoardSize][gameBoardSize], int row) {
     static int indices[2];
     int col = -1;
@@ -134,28 +151,31 @@ static int * findTR_BLIndex(int face[gameBoardSize][gameBoardSize]) {
     return indices;
 }
 
-// returns a random number between 0 < max
+/**
+ * Returns a random int between 0 < max
+ * @param max maximum int of random number, non-inclusive
+ * @return int
+ */
 static int randomIntGen(int max) {
     return (rand() % max);
 }
 
-// TEST ME
-void main() {
-    //test face
-    //    . . .
-    //    x o o
-    //    x . o
-
-    int face[3][3] = {
-            { 0,       0,       0},
-            { player1, player2, player2},
-            { player1, 0,       player2}
-    };
-
-    int * indices = primitiveCheck(face, player1);
-    printf("%d %d", indices[0], indices[1]);
-
-    indices = primitiveCheck(face, player2);
-    printf("\n%d %d", indices[0], indices[1]);
-
-}
+//// TEST ME
+//void main() {
+//    //test face
+//    //    . . .
+//    //    x o o
+//    //    x . o
+//
+//    int face[3][3] = {
+//            { 0,       0,       0},
+//            { player1, player2, player2},
+//            { player1, 0,       player2}
+//    };
+//
+//    int * indices = primitiveCheck(face, player1);
+//    printf("%d %d", indices[0], indices[1]);
+//
+//    indices = primitiveCheck(face, player2);
+//    printf("\n%d %d", indices[0], indices[1]);
+//}
