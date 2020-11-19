@@ -1,6 +1,11 @@
 #include <stdio.h>
 #define gameBoardSize 3
 
+// Functions
+void gameIntroduction();
+char gameMode();
+void gameInput();
+
 // Print-friendly Gameboard
 char gameDisplay[592] = "\
                                          C\n\
@@ -50,4 +55,34 @@ void displayBoard(){
 void testEdit(){
     printf("\n%d", slots[0][0][0]);
     gameDisplay[slots[0][0][0]] = 'X';
+}
+
+// User Interface Library -----------------------------------------------------
+void gameIntroduction(){
+        printf("Welcome to 3D Tic-Tac-Toe!\n");
+        printf("Instructions: Type in the letter and number of the position you want.\n");
+        printf("Would you like X or O: ");
+}
+
+void gameInstructions(){
+        printf("");
+}
+
+char gameMode(){
+        // X and O determine turn order
+        int order;
+        printf("Would you like to play X or O? ");
+        scanf("%d", &order);
+        return order;
+}
+
+void gameInput(){
+        // Get the next move
+        char depth;
+        int pos;
+        printf("\nYour turn: ");
+        scanf("%c, %d", &depth, &pos);
+
+        // Convert move into a valid position on the board
+
 }

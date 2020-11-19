@@ -1,4 +1,7 @@
 #include <stdio.h>
+#include <stdbool.h>
+#include "GameDisplay.h"
+#include "GameAI.h"
 #define gameBoardSize 3
 
 // Method declarations
@@ -58,3 +61,25 @@ void printGameBoard() {
     }
 }
 
+// Main Game Application
+int main(){
+    bool active = true;
+    //char player;
+    initGameBoard();
+    
+    // To be removed
+    printGameBoard();
+    testEdit();
+    displayBoard();
+
+    // Set active game
+    while(active){
+        gameIntroduction();
+        //player = gameMode();
+        active = false;
+        // Determine turn order
+
+        // Execute turn order until game is won
+    }
+
+}
