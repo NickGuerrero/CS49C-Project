@@ -80,7 +80,7 @@ char gameMenu(){
     //fflush(stdout);
     scanf(" %c", &request);
     // Special Prompt for AI behavior
-    if(request == 'A'){
+    if(request == 'A' || request == 'a'){
             printf("\nWould you like to go first? (Y/N): ");
             scanf(" %c", &request);
     }
