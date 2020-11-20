@@ -1,10 +1,20 @@
 // TODO: Everything
 // In all seriousness, go to the header file for required functions
 // #include "stdio.h"
-
 #include <stdlib.h>
 #include "GameAI.h"
 #define gameBoardSize 3
+
+// Output coordinates
+int globalOutput[gameBoardSize];
+
+// Function declarations
+void updateFaces(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]);
+int * primitiveCheck(int face[gameBoardSize][gameBoardSize], int player);
+static int * findHorizIndex(int face[gameBoardSize][gameBoardSize], int row);
+static int * findVertIndex(int face[gameBoardSize][gameBoardSize], int col);
+static int * findTL_BRIndex(int face[gameBoardSize][gameBoardSize]);
+static int * findTR_BLIndex(int face[gameBoardSize][gameBoardSize]);
 
 // player1 or player2 should be used
 #define player1 -1

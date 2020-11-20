@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "GameDisplay.h"
-//#include "GameAI.h"
+#include "GameAI.h"
 #define gameBoardSize 3
 
 // Method declarations
