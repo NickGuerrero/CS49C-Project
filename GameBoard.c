@@ -63,11 +63,6 @@ void printGameBoard() {
 
 // Main Game Application
 int main(){
-    // Address the windows issue with the string buffer
-    // Source: https://stackoverflow.com/questions/19365655/disable-buffering-for-stdin-and-stdout-using-setvbuf?rq=1
-    setvbuf(stdin, NULL, _IONBF, 0);
-    setvbuf(stdout, NULL, _IONBF, 0);
-
     bool active = true;
     initGameBoard();
     gameIntroduction();
