@@ -1,8 +1,8 @@
 #ifndef _GAMEAI_H_
 #define _GAMEAI_H_
 
-// Defined variables
-extern int globalOutput[3];
+// Defined global variables
+extern int AIOutput[3];
 
 // Defined functions
 int evaluate(int board[][3][3]);

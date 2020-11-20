@@ -6,7 +6,7 @@
 #define gameBoardSize 3
 
 // Output coordinates
-int globalOutput[gameBoardSize];
+int AIOutput[gameBoardSize];
 
 // Function declarations
 void updateFaces(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]);
@@ -20,13 +20,85 @@ static int * findTR_BLIndex(int face[gameBoardSize][gameBoardSize]);
 #define player1 -1
 #define player2 -2
 
+// 3d matrix
+// For 3D matrix reference, here's how we'll refer to spots on the board
+// 1 2 3    11 12 13    21 22 23
+// 4 5 6    14 15 16    24 25 26
+// 7 8 9    17 18 19    27 28 29
+int globalBoard[gameBoardSize][gameBoardSize][gameBoardSize];
+
+// 6 implicit faces
+// You MUST typecast the pointers before using them, C doesn't know what type of data the
+// pointers are referring to: (int *) front[0][0] and use * (int *) front[0][0] to dereference
+// TODO: Create a better solution that doesn't use as many hard-coded values. @Nicolas Guerrero
+
+// Front Face
+// 1 2 3
+// 4 5 6
+// 7 8 9
+void * front[gameBoardSize][gameBoardSize] = {
+    {&globalBoard[0][0][0], &globalBoard[0][0][1], &globalBoard[0][0][2]},
+    {&globalBoard[0][1][0], &globalBoard[0][1][1], &globalBoard[0][1][2]},
+    {&globalBoard[0][2][0], &globalBoard[0][2][1], &globalBoard[0][2][2]}
+};
+
+// Back Face
+// 21 22 23
+// 24 25 26
+// 27 28 29
+void * back[gameBoardSize][gameBoardSize] = {
+    {&globalBoard[2][0][0], &globalBoard[2][0][1], &globalBoard[2][0][2]},
+    {&globalBoard[2][1][0], &globalBoard[2][1][1], &globalBoard[2][1][2]},
+    {&globalBoard[2][2][0], &globalBoard[2][2][1], &globalBoard[2][2][2]}
+};
+
+// Left Face
+// 21 11 1
+// 24 14 4
+// 27 17 7
+void * left[gameBoardSize][gameBoardSize] = {
+    {&globalBoard[2][0][0], &globalBoard[1][0][0], &globalBoard[0][0][0]},
+    {&globalBoard[2][1][0], &globalBoard[1][1][0], &globalBoard[0][1][0]},
+    {&globalBoard[2][2][0], &globalBoard[1][2][0], &globalBoard[0][2][0]}
+};
+
+// Right Face
+// 3 13 23
+// 6 16 26
+// 9 19 29
+void * right[gameBoardSize][gameBoardSize] = {
+    {&globalBoard[0][0][2], &globalBoard[1][0][2], &globalBoard[2][0][2]},
+    {&globalBoard[0][1][2], &globalBoard[1][1][2], &globalBoard[2][1][2]},
+    {&globalBoard[0][2][2], &globalBoard[1][2][2], &globalBoard[2][2][2]}
+};
+
+// Top Face
+// 21 22 23
+// 11 12 13
+// 1  2  3
+void * top[gameBoardSize][gameBoardSize] = {
+    {&globalBoard[2][0][0], &globalBoard[2][0][1], &globalBoard[2][0][2]},
+    {&globalBoard[1][0][0], &globalBoard[1][0][1], &globalBoard[1][0][2]},
+    {&globalBoard[0][0][0], &globalBoard[0][0][1], &globalBoard[0][0][2]}
+};
+
+// Bottom Face
+// 7  8  9
+// 17 18 19
+// 27 28 29
+void * bottom[gameBoardSize][gameBoardSize] = {
+    {&globalBoard[0][2][0], &globalBoard[0][2][1], &globalBoard[0][2][2]},
+    {&globalBoard[1][2][0], &globalBoard[1][2][1], &globalBoard[1][2][2]},
+    {&globalBoard[2][2][0], &globalBoard[2][2][1], &globalBoard[2][2][2]}
+};
+
 // 6 faces
-int front[gameBoardSize][gameBoardSize];
-int back[gameBoardSize][gameBoardSize];
-int left[gameBoardSize][gameBoardSize];
-int right[gameBoardSize][gameBoardSize];
-int top[gameBoardSize][gameBoardSize];
-int bottom[gameBoardSize][gameBoardSize];
+//int front[gameBoardSize][gameBoardSize];
+//int back[gameBoardSize][gameBoardSize];
+//int left[gameBoardSize][gameBoardSize];
+//int right[gameBoardSize][gameBoardSize];
+//int top[gameBoardSize][gameBoardSize];
+//int bottom[gameBoardSize][gameBoardSize];
 
 /**
  * Takes 3d array and transforms it into 6 2d arrays excluding the center index i.e. [1][1][1]
