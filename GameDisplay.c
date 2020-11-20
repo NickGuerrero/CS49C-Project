@@ -66,7 +66,7 @@ void testEdit(){
 
 // User Interface Library -----------------------------------------------------
 void gameIntroduction(){
-    printf("\nWelcome to 3D Tic-Tac-Toe!\n");
+    printf("Welcome to 3D Tic-Tac-Toe!\n");
 }
 
 char gameMenu(){
@@ -78,11 +78,11 @@ char gameMenu(){
     printf("Read the instructions: (R)\n");
     printf("Quit: (Q)\n");
     //fflush(stdout);
-    scanf("%c", &request);
+    scanf(" %c", &request);
     // Special Prompt for AI behavior
     if(request == 'A'){
             printf("\nWould you like to go first? (Y/N): ");
-            scanf("%c", &request);
+            scanf(" %c", &request);
     }
     return toupper(request);
 }
@@ -99,7 +99,7 @@ int * gameInput(int turn){
     char depth;
     int pos;
     printf("\nYour turn, Player %d: ", (turn % 2));
-    scanf("%c, %d", &depth, &pos);
+    scanf(" %c, %d", &depth, &pos);
     // Convert move into a valid position on the board
     int x,y,z;
     x = y = z = -1;
