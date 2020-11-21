@@ -7,11 +7,19 @@
 #include "GameAI.h"
 #define gameBoardSize 3
 
-
+// Output coordinates
+int AIOutput[gameBoardSize];
 
 // player1 or player2 should be used
 #define player1 -1
 #define player2 -2
+
+// 3d matrix
+// For 3D matrix reference, here's how we'll refer to spots on the board
+// 1 2 3    11 12 13    21 22 23
+// 4 5 6    14 15 16    24 25 26
+// 7 8 9    17 18 19    27 28 29
+int globalBoard[gameBoardSize][gameBoardSize][gameBoardSize];
 
 // 6 faces
 int * front[gameBoardSize][gameBoardSize];
@@ -32,6 +40,7 @@ static int * findTR_BLIndex(int *face[3][3]);
  * @param gameboard 3 dimensional array
  */
 void updateFaces(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]) {
+    // TODO: Update to ai matrix
     for (int i = 0; i < gameBoardSize; i++) {
         for (int j = 0; j < gameBoardSize; j++) {
             front[i][j] = &gameboard[0][i][j];
