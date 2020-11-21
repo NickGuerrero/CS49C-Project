@@ -5,13 +5,12 @@
 extern int AIOutput[3];
 
 // Defined functions
-int evaluate(int board[][3][3]);
 int randPick(int positions[]);
 void defPos(int board[][3][3]);
 void offPos(int board[][3][3]);
 
-void updateFaces(int board[3][3][3]);
-int * primitiveCheck(int * face[3][3], int player);
+//void updateFaces(int board[3][3][3]);
+bool primitiveCheck(int * face[3][3], int player);
 
 // If they're static methods, don't declare them, C can figure it out
 //static int * findHorizIndex(int face[3][3], int row);
