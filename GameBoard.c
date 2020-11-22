@@ -2,13 +2,8 @@
 #include <stdbool.h>
 #include "GameDisplay.h"
 #include "GameAI.h"
+#include "GameBoard.h"
 #define gameBoardSize 3
-
-// Method declarations
-void initGameBoard();
-int isValidMove(int i, int j, int k);
-int isValidIndex(int i, int j, int k);
-void printGameBoard();
 
 // Numerical Gameboard
 int gameboard [gameBoardSize][gameBoardSize][gameBoardSize];
@@ -51,14 +46,118 @@ void printGameBoard() {
         for (int i = 0; i < gameBoardSize; i++) {
             for (int k = 0; k < gameBoardSize; k++) {
                 int move = gameboard[i][j][k];
-                if (move == 1) printf("x");
-                else if (move == 2) printf("o");
+                if (move == -1) printf("x");
+                else if (move == -2) printf("o");
                 else printf("-");
             }
             printf("\t");
         }
         printf("\n");
     }
+}
+
+bool checkWin(int player) {
+    bool win = (horizontalCheck(player) || verticalCheck(player) ||
+                diagFrontBackCheck(player) || diagTopBotCheck(player) ||
+                diagLeftRightCheck(player) || sideFaceCheck(player));
+    return win;
+}
+
+bool horizontalCheck(int player) {
+    for (int i = 0; i < gameBoardSize; i++) {
+        for (int j = 0; j < gameBoardSize; j++) {
+            if (i == 1 && j == 1) continue;
+            for (int k = 0; k < gameBoardSize; k++) {
+                if (gameboard[i][j][k] != player) break;
+                if (k == gameBoardSize - 1) return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool verticalCheck(int player) {
+    for (int i = 0; i < gameBoardSize; i++) {
+        for (int j = 0; j < gameBoardSize; j++) {
+            if (i == 1 && j == 1) continue;
+            for (int k = 0; k < gameBoardSize; k++) {
+                if (gameboard[i][k][j] != player) break;
+                if (j == gameBoardSize - 1) return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool diagFrontBackCheck(int player){
+    // check top left to bot right
+    for (int i = 0; i < gameBoardSize; i += 2) {
+        for (int j = 0; j < gameBoardSize; j++) {
+            if (gameboard[i][j][j] != player) break;
+            if (j == gameBoardSize - 1) return true;
+        }
+    }
+
+    // check top right to bot left
+    for (int i = 0; i < gameBoardSize; i += 2) {
+        for (int j = 0; j < gameBoardSize; j++) {
+            if (gameboard[i][j][gameBoardSize - 1 -j] != player) break;
+            if (j == gameBoardSize - 1) return true;
+        }
+    }
+
+    return false;
+}
+
+bool diagTopBotCheck(int player) {
+    // top left to bot right check on top and bot face
+    for (int i = 0; i < gameBoardSize; i += 2) {
+        for (int j = 0; j < gameBoardSize; j++) {
+            if (gameboard[j][i][j] != player) break;
+            if (j == gameBoardSize - 1) return true;
+        }
+    }
+
+    // top right to bot left check on top and bot face
+    for (int i = 0; i < gameBoardSize; i += 2) {
+        for (int j = 0; j < gameBoardSize; j++) {
+            if (gameboard[j][i][gameBoardSize - 1 - j] != player) break;
+            if (j == gameBoardSize - 1) return true;
+        }
+    }
+
+    return false;
+}
+
+bool diagLeftRightCheck(int player) {
+    for (int i = 0; i < gameBoardSize; i += 2) {
+        for (int j = 0; j < gameBoardSize; j++) {
+            if (gameboard[j][j][i] != player) break;
+            if (j == gameBoardSize - 1) return true;
+        }
+    }
+
+    for (int i = 0; i < gameBoardSize; i += 2) {
+        for (int j = 0; j < gameBoardSize; j++) {
+            if (gameboard[j][gameBoardSize - 1 - j][i] != player) break;
+            if (j == gameBoardSize - 1) return true;
+        }
+    }
+
+    return false;
+}
+
+bool sideFaceCheck(int player) {
+    for (int i = 0; i < gameBoardSize; i++) {
+        for (int j = 0; j < gameBoardSize; j++) {
+            if (i == 1 && j == 1) continue; // skip middle node
+            for (int k = 0; k < gameBoardSize; k++) {
+                if (gameboard[k][i][j] != player) break;
+                if (k == gameBoardSize - 1) return true;
+            }
+        }
+    }
+    return false;
 }
 
 // Main Game Application

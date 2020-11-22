@@ -8,6 +8,9 @@ extern int AIOutput[3];
 int randPick(int positions[]);
 void defPos(int board[][3][3]);
 void offPos(int board[][3][3]);
+void updateFaces();
+void buildBoard();
+void calculate();
 
 //void updateFaces(int board[3][3][3]);
 bool primitiveCheck(int * face[3][3], int player);
