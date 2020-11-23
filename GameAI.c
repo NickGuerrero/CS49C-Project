@@ -43,6 +43,17 @@ static int * findTL_BRIndex(int *face[3][3]);
 static int * findTR_BLIndex(int *face[3][3]);
 static int randomIntGen(int max);
 
+/**
+ * Determine a move based on the board position
+ * The selected AI determines a move based on positions. It starts by checking for obvious plays, like
+ * winning the game, or preventing an opponent win. If there aren't any, an evaluation algorithm is run,
+ * and the ai will randomly pick one from the set of highest options
+ * @param gameboard The gameboard, w/ aiPlayer and oppPlayer values markers, and CENTER marking the center
+ * @param aiPlayer The number representing the AI
+ * @param oppPlayer The number representing the opponent
+ * @param aiName The ai used to calculate the board position
+ * Output is stored in AIOutput
+ * */
 void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int aiPlayer, int oppPlayer, char aiName){
     // Determine who is playing this game
     printf("\nDetermining player...\n");

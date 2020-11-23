@@ -52,6 +52,7 @@ int slots[gameBoardSize][gameBoardSize][gameBoardSize] = {
     }
 };
 
+// Clear display after a game
 void resetDisplay(){
     for(int i = 0; i < gameBoardSize; i++){
         int num = 1;
@@ -65,6 +66,7 @@ void resetDisplay(){
     updatePosition(1,1,1,'N');
 }
 
+// Updates the display based on a board
 void updateDisplay(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]){
     for(int i = 0; i < gameBoardSize; i++){
         for(int j = 0; j < gameBoardSize; j++){
@@ -82,10 +84,12 @@ void updateDisplay(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]){
     }
 }
 
+// Update a single character on the display
 void updatePosition(int x, int y, int z, char letter){
     gameDisplay[slots[x][y][z]] = letter;
 }
 
+// Display a board
 void displayBoard(){
     printf("%s\n", gameDisplay);
 }
@@ -148,6 +152,7 @@ bool turnOrder(){
     return false;
 }
 
+// Introduce the game
 void gameInstructions(){
     printf("\nThe goal of the game is to create a line of three in a row before your opponent.\n");
     printf("Unlike regular tic-tac-toe though, you'll be working with three dimensions,\n");
@@ -155,11 +160,16 @@ void gameInstructions(){
     printf("with a friend, or play against our AI opponent\n\n");
 }
 
-void gameInput(int turn){
+/**
+ * Creates prompt and gets input for player turn (Format: char[a-c] int[1-9], no b5)
+ * @param player The player making the move, used in print output
+ * Output is stored in PlayerOutput
+ * */
+void gameInput(int player){
     // Get the next move
     char depth = 'd';
     int pos = -1;
-    printf("\nYour turn, Player %d: ", turn);
+    printf("\nYour turn, Player %d: ", player);
     scanf(" %c %d", &depth, &pos);
     // Convert move into a valid position on the board
     int x,y,z;
@@ -189,7 +199,6 @@ void gameInput(int turn){
         }
         z = (pos - 1) % 3;
     }
-
     // Store the value
     PlayerOutput[0] = x;
     PlayerOutput[1] = y;
