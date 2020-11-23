@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
 #include <ctype.h>
+
 #define gameBoardSize 3
 
 // Functions
@@ -33,7 +33,7 @@ I-----I-----I-----I  I-----I-----I-----I\n\
 |  7  |  8  |  9  |\n\
 I-----I-----I-----I";
 
-// These are the positions on the gameboard TODO: Make an array of pointers instead.
+// These are the positions on the gameboard
 int slots[gameBoardSize][gameBoardSize][gameBoardSize] = {
     {
             {351, 357, 363},

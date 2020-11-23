@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-//#include "GameAI.h"
+#include "GameAI.h"
+
 #define gameBoardSize 3
 #define FACES 6
 #define CENTER -3
@@ -147,8 +148,6 @@ void buildBoard(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]){
  * @param gameboard 3 dimensional array
  */
 void updateFaces() {
-    // TODO: Transfer data to aiBoard
-    //buildBoard(gameboard);
     for (int i = 0; i < gameBoardSize; i++) {
         for (int j = 0; j < gameBoardSize; j++) {
             front[i][j] = &aiBoard[0][i][j];
@@ -162,7 +161,6 @@ void updateFaces() {
         }
     }
 }
-// void updateFaces(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]) {
 
 /**
  * Evaluates a game face
@@ -327,13 +325,13 @@ bool primitiveCheck(int * face[3][3], int player, int primitveNum) {
             int * indices = findVertIndex(face, i);
             if (indices[0] != -1) {
                 *face[indices[0]][indices[1]] = primitveNum;
-                return true;;
+                return true;
             }
         }
 
         // Diagonal increment
-        if (*face[i][i] == player) {TL_BR++;}
-        if (*face[i][gameBoardSize-1-i] == player) {TR_BL++;}
+        if (*face[i][i] == player) TL_BR++;
+        if (*face[i][gameBoardSize-1-i] == player) TR_BL++;
     }
 
     // top left -> down right check
