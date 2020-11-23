@@ -4,6 +4,7 @@
 #include "GameAI.h"
 #include "GameBoard.h"
 #define gameBoardSize 3
+#define CENTER -3
 
 
 
@@ -23,6 +24,7 @@ void initGameBoard() {
             }
         }
     }
+    gameboard[1][1][1] = CENTER; // Unique value, be careful
 }
 
 int isValidMove(int i, int j, int k) {
@@ -62,14 +64,6 @@ bool checkWin(int player) {
     bool win = (horizontalCheck(player) || verticalCheck(player) ||
                 diagFrontBackCheck(player) || diagTopBotCheck(player) ||
                 diagLeftRightCheck(player) || sideFaceCheck(player));
-    // Debugging, remove later
-    printf("%d ", player);
-    printf("%s ", horizontalCheck(player) ? "true" : "false");
-    printf("%s ", verticalCheck(player) ? "true" : "false"); // Odd failure
-    printf("%s ", diagFrontBackCheck(player) ? "true" : "false");
-    printf("%s ", diagTopBotCheck(player) ? "true" : "false");
-    printf("%s ", diagLeftRightCheck(player) ? "true" : "false");
-    printf("%s \n", sideFaceCheck(player) ? "true" : "false");
     return win;
 }
 
@@ -92,7 +86,8 @@ bool verticalCheck(int player) {
             if (i == 1 && j == 1) continue;
             for (int k = 0; k < gameBoardSize; k++) {
                 if (gameboard[i][k][j] != player) break;
-                if (j == gameBoardSize - 1) return true;
+                // Swapped j for k
+                if (k == gameBoardSize - 1) return true;
             }
         }
     }
@@ -189,6 +184,7 @@ bool playHumanGame(){
         bool valid = false;
         while(!valid){
             displayBoard();
+            printGameBoard();
             gameInput(order * -1);
             if(isValidMove(PlayerOutput[0], PlayerOutput[1], PlayerOutput[2])){
                 valid = true;
@@ -250,7 +246,7 @@ bool playAIGame(bool first, char aiName){
                 updateDisplay(gameboard);
             } else {
                 // Forfeit the game if an invalid move is returned, the ai is broken
-                printf("\n%d %d %d\n", AIOutput[0], AIOutput[1], AIOutput[2]);
+                printf("The AI couldn't decide! Game forfeited.\n");
                 return true;
             }
         }

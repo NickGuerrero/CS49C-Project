@@ -117,7 +117,7 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
     }
 
     // Evaluate if no obvious options are possible
-    printf("Evaluating a position...");
+    printf("Evaluating a position...\n");
     for(int i = 0; i < FACES; i++){
         evaluate(faces[i], aiPlayer, att, oppPlayer, def);
     }
@@ -129,7 +129,9 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
     AIOutput[1] = temp[1];
     AIOutput[2] = temp[2];
 
-    printf("Position decided!");
+    printf("Position decided!\n");
+
+    /**
     for(int i = 0; i < gameBoardSize; i++){
         printf("\n");
         for(int j = 0; j < gameBoardSize; j++){
@@ -140,7 +142,7 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
             printf("\n");
         }
     }
-
+    **/
     return;
 }
 
@@ -305,7 +307,7 @@ int * searchCoordinates(int req, int * coor) {
  * */
 int findMarker(int ai, int player){
     int mark = -1;
-    while(mark == ai && mark == player && mark == CENTER){
+    while(mark == ai || mark == player || mark == CENTER){
         mark--;
     }
     return mark;

@@ -106,14 +106,14 @@ void gameIntroduction(){
 
 void playerWin(int num){
     if(num != 0){
-        printf("Player %d won!\n", num);
+        printf("Player %d won!\n\n", num);
     } else {
-        printf("The player won!\n");
+        printf("The player won!\n\n");
     }
 }
 
 void aiWin(){
-    printf("The AI won!\n");
+    printf("The AI won!\n\n");
 }
 
 char gameMenu(){
