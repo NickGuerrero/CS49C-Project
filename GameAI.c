@@ -31,7 +31,6 @@ int * left[gameBoardSize][gameBoardSize];
 int * right[gameBoardSize][gameBoardSize];
 int * top[gameBoardSize][gameBoardSize];
 int * bottom[gameBoardSize][gameBoardSize];
-//int *(*faces[3][3])[6] = {front, back, left, right, top, bottom};
 int *(*faces[6])[3] = {front, back, left, right, top, bottom};
 
 // Function declaration
@@ -53,6 +52,7 @@ static int randomIntGen(int max);
 
 void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int aiPlayer, int oppPlayer, char aiName){
     // Determine who is playing this game
+    printf("\nDetermining player...\n");
     int primitiveNum = findMarker(aiPlayer, oppPlayer);
     int att, def;
     switch(aiName){
@@ -78,11 +78,13 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
     updateFaces();
 
     // Primitive Check: Check for the winning move (AI win)
+    printf("Checking for obvious moves...\n");
     bool prim = false;
     {
         int i = 0;
         while(i < FACES && !prim){
             prim = primitiveCheck(faces[i], aiPlayer, primitiveNum);
+            i++;
         }
     }
     if(prim){
@@ -101,6 +103,7 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
         int i = 0;
         while(i < FACES && !prim){
             prim = primitiveCheck(faces[i], oppPlayer, primitiveNum);
+            i++;
         }
     }
     if(prim){
@@ -114,6 +117,7 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
     }
 
     // Evaluate if no obvious options are possible
+    printf("Evaluating a position...");
     for(int i = 0; i < FACES; i++){
         evaluate(faces[i], aiPlayer, att, oppPlayer, def);
     }
@@ -124,6 +128,19 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
     AIOutput[0] = temp[0];
     AIOutput[1] = temp[1];
     AIOutput[2] = temp[2];
+
+    printf("Position decided!");
+    for(int i = 0; i < gameBoardSize; i++){
+        printf("\n");
+        for(int j = 0; j < gameBoardSize; j++){
+            printf("Row: ");
+            for(int k = 0; k < gameBoardSize; k++){
+                printf("%d ", aiBoard[i][j][k]);
+            }
+            printf("\n");
+        }
+    }
+
     return;
 }
 
@@ -312,14 +329,6 @@ bool primitiveCheck(int * face[3][3], int player, int primitveNum) {
     int TL_BR = 0; // topLeft->botRight diagonal
     int TR_BL = 0; // topRight->botLeft diagonal
 
-    /**
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            printf("%d", *face[i][j]);
-        }
-        printf("\n");
-    } */
-
     for (int i = 0; i < gameBoardSize; i++) {
         int horiz = 0; // horizontal direction
         int vert = 0; // vertical direction
@@ -366,12 +375,6 @@ bool primitiveCheck(int * face[3][3], int player, int primitveNum) {
             return true;
         }
     }
-
-    // no valid move
-    //static int noMove[2];
-    //noMove[0] = -1;
-    //noMove[1] = -1;
-    //return noMove;
     return false;
 }
 

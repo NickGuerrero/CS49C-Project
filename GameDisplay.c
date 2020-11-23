@@ -16,7 +16,7 @@ bool turnOrder();
 void playerWin(int num);
 
 // Global variable
-int * PlayerOutput;
+int PlayerOutput[3];
 
 // Print-friendly Gameboard ---------------------------------------------------
 char gameDisplay[592] = "\
@@ -166,10 +166,10 @@ void gameInstructions(){
 
 void gameInput(int turn){
     // Get the next move
-    char depth;
-    int pos;
+    char depth = 'd';
+    int pos = -1;
     printf("\nYour turn, Player %d: ", turn);
-    scanf(" %c, %d", &depth, &pos);
+    scanf(" %c %d", &depth, &pos);
     // Convert move into a valid position on the board
     int x,y,z;
     x = y = z = -1;
@@ -200,10 +200,8 @@ void gameInput(int turn){
     }
 
     // Store the value
-    int output[3];
-    output[0] = x;
-    output[1] = y;
-    output[2] = z;
-    PlayerOutput = output;
+    PlayerOutput[0] = x;
+    PlayerOutput[1] = y;
+    PlayerOutput[2] = z;
     return;
 }
