@@ -33,10 +33,6 @@ I-----I-----I-----I  I-----I-----I-----I\n\
 |  7  |  8  |  9  |\n\
 I-----I-----I-----I";
 
-// int slots[27] = {148, 154, 160, 270, 276, 282, 392, 398, 404
-// 250, 256, 262, 372, 378, 384, 494, 500, 506
-// 351, 357, 363, 473, 479, 485, 555, 561, 567};
-
 // These are the positions on the gameboard TODO: Make an array of pointers instead.
 int slots[gameBoardSize][gameBoardSize][gameBoardSize] = {
     {
@@ -92,11 +88,6 @@ void updatePosition(int x, int y, int z, char letter){
 
 void displayBoard(){
     printf("%s\n", gameDisplay);
-}
-
-void testEdit(){
-    printf("\n%d", slots[0][0][0]);
-    gameDisplay[slots[0][0][0]] = 'X';
 }
 
 // User Interface Library -----------------------------------------------------
@@ -158,10 +149,10 @@ bool turnOrder(){
 }
 
 void gameInstructions(){
-    printf("The goal of the game is to create a line of three in a row before your opponent.\n");
+    printf("\nThe goal of the game is to create a line of three in a row before your opponent.\n");
     printf("Unlike regular tic-tac-toe though, you'll be working with three dimensions,\n");
-    printf("leading to more complex rows that can cross multiple planes. You can play the game");
-    printf("with a friend, or play against our AI opponent\n");
+    printf("leading to more complex rows that can cross multiple planes. You can play the game\n");
+    printf("with a friend, or play against our AI opponent\n\n");
 }
 
 void gameInput(int turn){
