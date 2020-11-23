@@ -1,7 +1,3 @@
-// TODO: Everything
-// In all seriousness, go to the header file for required functions
-// #include "stdio.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -18,10 +14,6 @@ int AIOutput[3];
 #define player2 -2
 
 // 3d matrix
-// For 3D matrix reference, here's how we'll refer to spots on the board
-// 1 2 3    11 12 13    21 22 23
-// 4 5 6    14 15 16    24 25 26
-// 7 8 9    17 18 19    27 28 29
 int aiBoard[gameBoardSize][gameBoardSize][gameBoardSize];
 
 // 6 faces
@@ -33,7 +25,7 @@ int * top[gameBoardSize][gameBoardSize];
 int * bottom[gameBoardSize][gameBoardSize];
 int *(*faces[6])[3] = {front, back, left, right, top, bottom};
 
-// Function declaration
+// Function declarations
 void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int aiPlayer, int oppPlayer, char aiName);
 void evaluate(int * face[gameBoardSize][gameBoardSize], int aiPlayer, int offScale, int oppPlayer, int defScale);
 void calculate(int * face[gameBoardSize][gameBoardSize], int row, int col, int scale);
@@ -43,7 +35,7 @@ int * searchCoordinates(int req, int * coor);
 void buildBoard(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]);
 void updateFaces();
 
-// prevent compilation warnings, still need to be declared before being called
+// Static Function Declarations
 static int * findHorizIndex(int *face[3][3], int row);
 static int * findVertIndex(int *face[3][3], int col);
 static int * findTL_BRIndex(int *face[3][3]);
@@ -130,19 +122,6 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
     AIOutput[2] = temp[2];
 
     printf("Position decided!\n");
-
-    /**
-    for(int i = 0; i < gameBoardSize; i++){
-        printf("\n");
-        for(int j = 0; j < gameBoardSize; j++){
-            printf("Row: ");
-            for(int k = 0; k < gameBoardSize; k++){
-                printf("%d ", aiBoard[i][j][k]);
-            }
-            printf("\n");
-        }
-    }
-    **/
     return;
 }
 
@@ -265,7 +244,6 @@ void calculate(int * face[gameBoardSize][gameBoardSize], int row, int col, int s
 int * searchCoordinates(int req, int * coor) {
     // Search the global ai board to find the correct coordinate
     int current = -1;
-    //int coor[gameBoardSize];
     coor[0] = -1;
     coor[1] = -1;
     coor[2] = -1;
@@ -444,23 +422,3 @@ static int * findTR_BLIndex(int *face[gameBoardSize][gameBoardSize]) {
 static int randomIntGen(int max) {
     return (rand() % max);
 }
-
-//// TEST ME
-//void main() {
-//    //test face
-//    //    . . .
-//    //    x o o
-//    //    x . o
-//
-//    int face[3][3] = {
-//            { 0,       0,       0},
-//            { player1, player2, player2},
-//            { player1, 0,       player2}
-//    };
-//
-//    int * indices = primitiveCheck(face, player1);
-//    printf("%d %d", indices[0], indices[1]);
-//
-//    indices = primitiveCheck(face, player2);
-//    printf("\n%d %d", indices[0], indices[1]);
-//}

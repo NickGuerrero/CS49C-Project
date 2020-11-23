@@ -43,7 +43,7 @@ int isValidIndex(int i, int j, int k) {
     return 1; // return true;
 }
 
-// gameboard[i][j][k]
+// gameboard[i][j][k], used only in debugging
 // but loop is j i k
 void printGameBoard() {
     for (int j = 0; j < gameBoardSize; j++) {
@@ -184,7 +184,6 @@ bool playHumanGame(){
         bool valid = false;
         while(!valid){
             displayBoard();
-            printGameBoard();
             gameInput(order * -1);
             if(isValidMove(PlayerOutput[0], PlayerOutput[1], PlayerOutput[2])){
                 valid = true;
@@ -260,7 +259,6 @@ bool playAIGame(bool first, char aiName){
     }
 
 }
-
 
 // Main Game Application
 int main(){
