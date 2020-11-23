@@ -5,6 +5,8 @@
 #include "GameBoard.h"
 #define gameBoardSize 3
 
+
+
 // Numerical Gameboard
 int gameboard [gameBoardSize][gameBoardSize][gameBoardSize];
 
@@ -24,7 +26,6 @@ void initGameBoard() {
 
 int isValidMove(int i, int j, int k) {
     if (isValidIndex(i, j, k) == 0) return 0; // index check
-
     if (gameboard[i][j][k] == 0) return 1; // check if spot is empty
     return 0;
 }
@@ -160,6 +161,99 @@ bool sideFaceCheck(int player) {
     return false;
 }
 
+bool playHumanGame(){
+    // Set turn order
+    int player1 = -1;
+    //int player2 = -2;
+
+    int order = -2;
+    while(!checkWin(order)){
+        // Change turns
+        if(order == -1){
+            order = -2;
+        } else {
+            order = -1;
+        }
+
+        // Go through turn order
+        // Get the player input
+        bool valid = false;
+        while(!valid){
+            displayBoard();
+            gameInput(order * -1);
+            if(isValidMove(PlayerOutput[0], PlayerOutput[1], PlayerOutput[2])){
+                valid = true;
+                gameboard[PlayerOutput[0]][PlayerOutput[1]][PlayerOutput[2]] = order;
+                updateDisplay(gameboard);
+            }
+        }
+    }
+
+    if(order == player1){
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+bool playAIGame(bool first, char aiName){
+    // Set turn order
+    int playerOrd;
+    int aiOrd;
+    if(first){
+        playerOrd = -1;
+        aiOrd = -2;
+    } else {
+        aiOrd = -1;
+        playerOrd = -2;
+    }
+
+    int order = -2;
+    while(!checkWin(order)){
+        // Change turns
+        if(order == -1){
+            order = -2;
+        } else {
+            order = -1;
+        }
+
+        // Go through the turn
+        if(order == playerOrd){
+            // Get the player input
+            bool valid = false;
+            while(!valid){
+                displayBoard();
+                gameInput(playerOrd * -1);
+                if(isValidMove(PlayerOutput[0], PlayerOutput[1], PlayerOutput[2])){
+                    valid = true;
+                    gameboard[PlayerOutput[0]][PlayerOutput[1]][PlayerOutput[2]] = playerOrd;
+                    updateDisplay(gameboard);
+                }
+            }
+        } else {
+            // Get the ai input
+            determine(gameboard, aiOrd, playerOrd, aiName);
+            if(isValidMove(AIOutput[0], AIOutput[1], AIOutput[2])){
+                gameboard[AIOutput[0]][AIOutput[1]][AIOutput[2]] = aiOrd;
+                updateDisplay(gameboard);
+            } else {
+                // Forfeit the game if an invalid move is returned, the ai is broken
+                return true;
+            }
+        }
+    }
+
+    // Return who won
+    if(order == playerOrd){
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+
 // Main Game Application
 int main(){
     // Address the windows issue with the string buffer
@@ -167,24 +261,35 @@ int main(){
     setvbuf(stdin, NULL, _IONBF, 0);
     setvbuf(stdout, NULL, _IONBF, 0);
     
+    // Initialize the gameboard
     bool active = true;
-    initGameBoard();
     gameIntroduction();
-    char player;
+    char option;
 
     // Set active game
     while(active){
-        player = gameMenu();
-
-        switch(player){
-            case 'Y':
-                // start ai game, user first
-                break;
-            case 'N':
-                // start ai game, ai first
-                break;
+        option = gameMenu();
+        switch(option){
             case 'B':
+            case 'P':
+            case 'I':
+            case 'C':
+                // Start the ai game
+                initGameBoard();
+                if(playAIGame(turnOrder(),option)){
+                    playerWin(0);
+                } else {
+                    aiWin();
+                }
+                break;
+            case 'V':
                 // start 2 player game
+                initGameBoard();
+                if(playHumanGame()){
+                    playerWin(1);
+                } else {
+                    playerWin(2);
+                }
                 break;
             case 'R':
                 gameInstructions();
@@ -198,3 +303,97 @@ int main(){
         }
     }
 }
+
+/**
+bool playHumanGame(){
+    // Set turn order
+    int player1 = -1;
+    int player2 = -2;
+
+    int order = -2;
+    while(!checkWin(order)){
+        // Change turns
+        if(order == -1){
+            order = -2;
+        } else {
+            order = -1;
+        }
+
+        // Go through turn order
+        // Get the player input
+        bool valid = false;
+        while(!valid){
+            displayBoard();
+            gameInput(order * -1);
+            if(isValidMove(PlayerOutput[0], PlayerOutput[1], PlayerOutput[2])){
+                valid = true;
+                gameboard[PlayerOutput[0]][PlayerOutput[1]][PlayerOutput[2]] = order;
+                updateDisplay(gameboard);
+            }
+        }
+    }
+
+    if(order == -1){
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+bool playAIGame(bool first, char aiName){
+    // Set turn order
+    int playerOrd;
+    int aiOrd;
+    if(first){
+        playerOrd = -1;
+        aiOrd = -2;
+    } else {
+        aiOrd = -1;
+        playerOrd = -2;
+    }
+
+    int order = -2;
+    while(!checkWin(order)){
+        // Change turns
+        if(order == -1){
+            order = -2;
+        } else {
+            order = -1;
+        }
+
+        // Go through the turn
+        if(order == playerOrd){
+            // Get the player input
+            bool valid = false;
+            while(!valid){
+                displayBoard();
+                gameInput(playerOrd * -1);
+                if(isValidMove(PlayerOutput[0], PlayerOutput[1], PlayerOutput[2])){
+                    valid = true;
+                    gameboard[PlayerOutput[0]][PlayerOutput[1]][PlayerOutput[2]] = playerOrd;
+                    updateDisplay(gameboard);
+                }
+            }
+        } else {
+            // Get the ai input
+            determine(gameboard, aiOrd, playerOrd, aiName);
+            if(isValidMove(AIOutput[0], AIOutput[1], AIOutput[2])){
+                gameboard[AIOutput[0]][AIOutput[1]][AIOutput[2]] = aiOrd;
+                updateDisplay(gameboard);
+            } else {
+                // Forfeit the game if an invalid move is returned, the ai is broken
+                return true;
+            }
+        }
+    }
+
+    // Return who won
+    if(order == playerOrd){
+        return true;
+    } else {
+        return false;
+    }
+
+}
+**/

@@ -11,7 +11,12 @@ void testEdit();
 void gameIntroduction();
 char gameMenu();
 void gameInstructions();
-int * gameInput();
+void gameInput();
+bool turnOrder();
+void playerWin(int num);
+
+// Global variable
+int * PlayerOutput;
 
 // Print-friendly Gameboard ---------------------------------------------------
 char gameDisplay[592] = "\
@@ -21,7 +26,7 @@ char gameDisplay[592] = "\
                      I-----I-----I-----I I-----I-----I-----I\n\
 A                    |  1  |  2  |  3  | |  4  |  5  |  6  |\n\
 I-----I-----I-----I  I-----I-----I-----I I-----I-----I-----I\n\
-|  1  |  2  |  3  |  |  4  |  5  |  6  | |  7  |  8  |  9  |\n\
+|  1  |  2  |  3  |  |  4  |  N  |  6  | |  7  |  8  |  9  |\n\
 I-----I-----I-----I  I-----I-----I-----I I-----I-----I-----I\n\
 |  4  |  5  |  6  |  |  7  |  8  |  9  |\n\
 I-----I-----I-----I  I-----I-----I-----I\n\
@@ -51,6 +56,36 @@ int slots[gameBoardSize][gameBoardSize][gameBoardSize] = {
     }
 };
 
+void resetDisplay(){
+    for(int i = 0; i < gameBoardSize; i++){
+        int num = 1;
+        for(int j = 0; j < gameBoardSize; j++){
+            for(int k = 0; k < gameBoardSize; k++){
+                updatePosition(i, j, k, num + '0');
+                num++;
+            }
+        }
+    }
+    updatePosition(1,1,1,'N');
+}
+
+void updateDisplay(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]){
+    for(int i = 0; i < gameBoardSize; i++){
+        for(int j = 0; j < gameBoardSize; j++){
+            for(int k = 0; k < gameBoardSize; k++){
+                switch(gameboard[i][j][k]){
+                    case -1:
+                        updatePosition(i, j, k, 'X');
+                        break;
+                    case -2:
+                        updatePosition(i, j, k, 'O');
+                        break;
+                }
+            }
+        }
+    }
+}
+
 void updatePosition(int x, int y, int z, char letter){
     gameDisplay[slots[x][y][z]] = letter;
 }
@@ -69,22 +104,57 @@ void gameIntroduction(){
     printf("Welcome to 3D Tic-Tac-Toe!\n");
 }
 
+void playerWin(int num){
+    if(num != 0){
+        printf("Player %d won!\n", num);
+    } else {
+        printf("The player won!\n");
+    }
+}
+
+void aiWin(){
+    printf("The AI won!\n");
+}
+
 char gameMenu(){
     char request;
     // User Prompt
     printf("What would you like to do?\n");
     printf("Play against the AI: (A)\n");
-    printf("Play against another player: (B)\n");
+    printf("Play against another player: (V)\n");
     printf("Read the instructions: (R)\n");
     printf("Quit: (Q)\n");
-    //fflush(stdout);
     scanf(" %c", &request);
-    // Special Prompt for AI behavior
+
+    // Choose the opponent
     if(request == 'A' || request == 'a'){
-            printf("\nWould you like to go first? (Y/N): ");
-            scanf(" %c", &request);
+        printf("\nWho would you like to face against: Blinky (B), Inky (I), Pinky (P), or Clyde (C): ");
+        scanf(" %c", &request);
     }
     return toupper(request);
+}
+
+bool turnOrder(){
+    // Determine turn order
+    bool active = false;
+    char choice;
+    while(!active){
+        printf("\nWould you like to go first? (Y/N): ");
+        scanf(" %c", &choice);
+        switch(choice){
+            case 'y':
+            case 'Y':
+                printf("\n");
+                return true;
+                break;
+            case 'n':
+            case 'N':
+                printf("\n");
+                return false;
+                break;
+        }
+    }
+    return false;
 }
 
 void gameInstructions(){
@@ -94,11 +164,11 @@ void gameInstructions(){
     printf("with a friend, or play against our AI opponent\n");
 }
 
-int * gameInput(int turn){
+void gameInput(int turn){
     // Get the next move
     char depth;
     int pos;
-    printf("\nYour turn, Player %d: ", (turn % 2));
+    printf("\nYour turn, Player %d: ", turn);
     scanf(" %c, %d", &depth, &pos);
     // Convert move into a valid position on the board
     int x,y,z;
@@ -128,11 +198,12 @@ int * gameInput(int turn){
         }
         z = (pos - 1) % 3;
     }
-    //int arr[3] = {x,y,z};
-    // using malloc to solve problems
-    int* ptr = (int*) malloc(3 * sizeof(int));
-    ptr[0] = x;
-    ptr[1] = y;
-    ptr[2] = z;
-    return ptr;
+
+    // Store the value
+    int output[3];
+    output[0] = x;
+    output[1] = y;
+    output[2] = z;
+    PlayerOutput = output;
+    return;
 }
