@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-//#include "GameAI.h"
+#include "GameAI.h"
+
 #define gameBoardSize 3
 #define FACES 6
 #define CENTER -3
@@ -42,6 +43,17 @@ static int * findTL_BRIndex(int *face[3][3]);
 static int * findTR_BLIndex(int *face[3][3]);
 static int randomIntGen(int max);
 
+/**
+ * Determine a move based on the board position
+ * The selected AI determines a move based on positions. It starts by checking for obvious plays, like
+ * winning the game, or preventing an opponent win. If there aren't any, an evaluation algorithm is run,
+ * and the ai will randomly pick one from the set of highest options
+ * @param gameboard The gameboard, w/ aiPlayer and oppPlayer values markers, and CENTER marking the center
+ * @param aiPlayer The number representing the AI
+ * @param oppPlayer The number representing the opponent
+ * @param aiName The ai used to calculate the board position
+ * Output is stored in AIOutput
+ * */
 void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int aiPlayer, int oppPlayer, char aiName){
     // Determine who is playing this game
     printf("\nDetermining player...\n");
@@ -147,8 +159,6 @@ void buildBoard(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]){
  * @param gameboard 3 dimensional array
  */
 void updateFaces() {
-    // TODO: Transfer data to aiBoard
-    //buildBoard(gameboard);
     for (int i = 0; i < gameBoardSize; i++) {
         for (int j = 0; j < gameBoardSize; j++) {
             front[i][j] = &aiBoard[0][i][j];
@@ -162,7 +172,6 @@ void updateFaces() {
         }
     }
 }
-// void updateFaces(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize]) {
 
 /**
  * Evaluates a game face
@@ -327,13 +336,13 @@ bool primitiveCheck(int * face[3][3], int player, int primitveNum) {
             int * indices = findVertIndex(face, i);
             if (indices[0] != -1) {
                 *face[indices[0]][indices[1]] = primitveNum;
-                return true;;
+                return true;
             }
         }
 
         // Diagonal increment
-        if (*face[i][i] == player) {TL_BR++;}
-        if (*face[i][gameBoardSize-1-i] == player) {TR_BL++;}
+        if (*face[i][i] == player) TL_BR++;
+        if (*face[i][gameBoardSize-1-i] == player) TR_BL++;
     }
 
     // top left -> down right check

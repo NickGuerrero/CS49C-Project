@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdbool.h>
+
 #include "GameDisplay.h"
 #include "GameAI.h"
 #include "GameBoard.h"
+
 #define gameBoardSize 3
 #define CENTER -3
 
@@ -86,7 +88,6 @@ bool verticalCheck(int player) {
             if (i == 1 && j == 1) continue;
             for (int k = 0; k < gameBoardSize; k++) {
                 if (gameboard[i][k][j] != player) break;
-                // Swapped j for k
                 if (k == gameBoardSize - 1) return true;
             }
         }
