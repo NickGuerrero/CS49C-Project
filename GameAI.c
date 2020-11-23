@@ -31,13 +31,8 @@ int * left[gameBoardSize][gameBoardSize];
 int * right[gameBoardSize][gameBoardSize];
 int * top[gameBoardSize][gameBoardSize];
 int * bottom[gameBoardSize][gameBoardSize];
-int *(*faces[3][3])[6] = {front, back, left, right, top, bottom};
-//faces[0] = front;
-//faces[1] = back;
-//faces[2] = left;
-//faces[3] = right;
-//faces[4] = top;
-//faces[5] = bottom;
+//int *(*faces[3][3])[6] = {front, back, left, right, top, bottom};
+int *(*faces[6])[3] = {front, back, left, right, top, bottom};
 
 // Function declaration
 void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int aiPlayer, int oppPlayer, char aiName);
@@ -120,7 +115,7 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
 
     // Evaluate if no obvious options are possible
     for(int i = 0; i < FACES; i++){
-        evaluate(*faces[i], aiPlayer, att, oppPlayer, def);
+        evaluate(faces[i], aiPlayer, att, oppPlayer, def);
     }
 
     // Search for and return the given coordinates
