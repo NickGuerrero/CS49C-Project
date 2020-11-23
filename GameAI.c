@@ -72,12 +72,11 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
     // Primitive Check: Check for the winning move (AI win)
     printf("Checking for obvious moves...\n");
     bool prim = false;
-    {
-        int i = 0;
-        while(i < FACES && !prim){
-            prim = primitiveCheck(faces[i], aiPlayer, primitiveNum);
-            i++;
-        }
+
+    int index = 0;
+    while(index < FACES && !prim){
+        prim = primitiveCheck(faces[index], aiPlayer, primitiveNum);
+        index++;
     }
     if(prim){
         // Search for the negative number
@@ -91,12 +90,10 @@ void determine(int gameboard[gameBoardSize][gameBoardSize][gameBoardSize], int a
 
     // Primitive Check: Check for the required move (Player win)
     prim = false;
-    {
-        int i = 0;
-        while(i < FACES && !prim){
-            prim = primitiveCheck(faces[i], oppPlayer, primitiveNum);
-            i++;
-        }
+    index = 0;
+    while(index < FACES && !prim){
+        prim = primitiveCheck(faces[index], oppPlayer, primitiveNum);
+        index++;
     }
     if(prim){
         // Search for the negative number
@@ -363,7 +360,6 @@ static int * findHorizIndex(int * face[gameBoardSize][gameBoardSize], int row) {
     static int indices[2];
     int col = -1;
     for (int i = 0; i < gameBoardSize; i++) {
-        //printf("%d", *face[row][i]);
         if (*face[row][i] == 0) col = i;
     }
 
@@ -376,7 +372,7 @@ static int * findVertIndex(int * face[gameBoardSize][gameBoardSize], int col) {
     static int indices[2];
     int row = -1;
     for (int i = 0; i < gameBoardSize; i++) {
-        if (* face[i][col] == 0) row = i;
+        if (*face[i][col] == 0) row = i;
     }
 
     indices[0] = row;
@@ -389,13 +385,14 @@ static int * findTL_BRIndex(int *face[gameBoardSize][gameBoardSize]) {
     int row = -1;
     int col = -1;
     for (int i = 0; i < gameBoardSize; i++) {
-        if (face[i][i] == 0) {
+        if (*face[i][i] == 0) {
             row = i;
             col = i;
         }
     }
     indices[0] = row;
     indices[1] = col;
+
     return indices;
 }
 
@@ -404,7 +401,7 @@ static int * findTR_BLIndex(int *face[gameBoardSize][gameBoardSize]) {
     int row = -1;
     int col = -1;
     for (int i = 0; i < gameBoardSize; i++) {
-        if (face[i][gameBoardSize-1-i] == 0) {
+        if (*face[i][gameBoardSize-1-i] == 0) {
             row = i;
             col = i;
         }
